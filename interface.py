@@ -49,6 +49,22 @@ class APIHandler:
         )
         return response.json()
 
+    def update_user(self, user_id, name, email, password):
+        response = requests.put(
+            f"{self.BASE_URL}/user/{user_id}",
+            json={"name": name, "email": email, "password": password},
+            timeout=100,
+        )
+        return response.json()
+
+    def update_product(self, product_id, name, description):
+        response = requests.put(
+            f"{self.BASE_URL}/product/{product_id}",
+            json={"name": name, "description": description},
+            timeout=100,
+        )
+        return response.json()
+
 
 # Função para criar uma interface de linha de comando para interagir com a API
 # Defina a função main
@@ -66,6 +82,8 @@ def main():
         print("6. Deletar um usuário")
         print("7. Mostrar produtos de um usuário")
         print("8. Atribuir produto a usuário")
+        print("9. Atualizar um usuário")
+        print("10. Atualizar um produto")
         print("0. Sair")
 
         option = input("Opção: ")
@@ -97,6 +115,17 @@ def main():
                 user_id = input("ID do usuário: ")
                 product_id = input("ID do produto: ")
                 print(api_handler.assign_product_to_user(user_id, product_id))
+            case "9":
+                user_id = input("ID do usuário: ")
+                name = input("Novo nome do usuário: ")
+                email = input("Novo email do usuário: ")
+                password = input("Nova senha do usuário: ")
+                print(api_handler.update_user(user_id, name, email, password))
+            case "10":
+                product_id = input("ID do produto: ")
+                name = input("Novo nome do produto: ")
+                description = input("Nova descrição do produto: ")
+                print(api_handler.update_product(product_id, name, description))
             case "0":
                 print("Saindo...")
                 break
